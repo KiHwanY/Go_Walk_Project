@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 작성 페이지</title>
+</head>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/uikit.min.css">
+<link rel="stylesheet" href="/css/trakker.css">
+<link rel="stylesheet" href="/summernote/summernote-lite.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote-sticky-toolbar@1.0.0/summernote-sticky-toolbar.min.js"></script>
+<script src="/js/board/board.js"></script>
+<script src="/js/board/common.js"></script>
+<script src="/js/board/summernote.js"></script>
+<script src="/summernote/summernote-lite.js"></script>
+<script src="/summernote/lang/summernote-ko-KR.js"></script>
+<style>
+     textarea {
+        display: flex;
+        width: 100%;
+        border: none;
+        resize: none;
+    }
+
+    .form-control, input {
+        border: none;
+    }
+
+    .btn-group {
+        position: fixed;
+        bottom: 0;
+    }
+    .dropdown-toggle::after{
+     display:none;
+     }
+
+</style>
+<body>
+<form name="form1" method="post">
+    <div class="container"><br>
+        {{#lNum}}
+            <input type="hidden" id="lNumCheck" value="{{lNum}}">
+            <input type="hidden" id="lNum" value="{{lNum}}">
+            <select class="form-select w-25" aria-label="Default select example" id="editLocaltionSelect" name="lNum">
+            </select>
+        {{/lNum}}
+        {{^lNum}}
+            <select class="form-select w-25" aria-label="Default select example" id="insertLocaltionSelect" name="lNum">
+
+            </select>
+        {{/lNum}}
+        <hr>
+        <input class="form-control" type="text" placeholder="제목을 입력하세요" aria-label="default input example" id="title"
+        name="title">
+        <hr>
+        <textarea class="summernote" id="summernote" name="content"></textarea>
+        <hr>
+        <input type="hidden" name="memNum" id="memNum" value="{{user.idx}}">
+        <br><br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="btn-group m-3" role="group" aria-label="First group">
+                <button type="button" id="insert" class="btn btn-success btn-lg">등록</button>
+                <button type="button" id="reset" class="btn btn-light btn-lg">뒤로가기</button>
+            </div>
+        </div>
+        <br>
+    </div>
+</form>
+</body>
+<script>
+    $(function() {
+        let lNumCheck = $('#lNumCheck').val();
+        console.log('lNumCheck = ' , lNumCheck);
+        if(!lNumCheck){
+            localList('insert');
+        }else{
+            localList('edit');
+        }
+    });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

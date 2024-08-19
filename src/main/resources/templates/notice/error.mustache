@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+</head>
+<style>
+    .auto-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+{{>layout/header}}
+    <div class="container">
+        <div class="center auto-center">
+            <h1><i class="bi bi-search"></i></h1>
+            <h3 class="pb-3">해당 게시글이 존재하지 않습니다.</h3>
+            <button type="button" class="btn btn-success end-0" onclick="reset();">목록</button>
+        </div>
+    </div>
+{{>layout/footer}}
+</body>
+<script>
+    const reset = () => {
+        location.href = `/user/notice/listPage?num=1`;
+    }
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

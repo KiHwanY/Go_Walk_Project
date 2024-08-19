@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<link rel="stylesheet" href="/css/board.css">
+<body>
+{{>layout/header}}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
+        <div class="justify-content-md-start" style="display: flex;">
+            {{#authority}}
+                <button type="button" class="btn edit btn-light start-0">수정</button>
+                <button type="button" class="btn delete btn-light start-0">삭제</button>
+            {{/authority}}
+        </div>
+        <div class="justify-content-md-end" style="display: flex; width: 20%;">
+            <button type="button" class="btn btn-light end-0 prev" value="{{notice.prev}}">이전글</button>
+            <button type="button" class="btn btn-light end-0 next" value="{{notice.next}}">다음글</button>
+            <button type="button" class="btn boardMainList btn-success end-0">목록</button>
+        </div>
+    </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="col-md-12 d-flex align-items-center">
+                <p class="mb-0 h3">{{notice.title}}</p>
+            </div>
+        </div>
+        <div>
+            <div>
+                <small class="opacity-50 mb-0 text-nowrap">{{notice.updateDtResult}}
+                </small>
+                <small class="opacity-50 mb-0 ms-2 text-nowrap">조회수 {{notice.readCount}}</small>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <p class="mb-1">{{{notice.content}}}</p>
+        </div>
+    <hr>
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-4">
+        <div class="justify-content-md-start" style="display: flex;">
+            {{#authority}}
+                <button type="button" class="btn edit btn-light start-0">수정</button>
+                <button type="button" class="btn delete btn-light start-0">삭제</button>
+            {{/authority}}
+        </div>
+        <div class="justify-content-md-end" style="display: flex;">
+            <button type="button" class="btn btn-light btn-end-0" id="top"><i class="bi bi-caret-up-fill"></i>TOP
+            </button>
+            <button type="button" class="btn boardMainList btn-success end-0">목록</button>
+        </div>
+    </div>
+</div>
+    <input type="hidden" id="memNum" value="{{user.idx}}">
+    <input type="hidden" id="noticeNum" value="{{notice.noNum}}">
+{{>layout/footer}}
+</body>
+<script src="/js/notice/detail.js"></script>
+</html>

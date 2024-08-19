@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+{{>layout/header}}
+<div class="container" style="margin-top:80px;">
+    <h2>My Page</h2>
+    <form name="form1">
+        {{#member}}
+        <div>
+            <table  width="400px">
+                <tr>
+                    <td  colspan="2">ID</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="text" id="mem_id" name="mem_id" value="{{memId}}" disabled></td>
+                        <input type="hidden" id="mem_num" name="mem_num" value="{{memNum}}">
+                </tr>
+                <tr>
+                    <td colspan="2">비밀번호</td>
+                </tr>
+                <tr>
+                    {{#loginType}}
+                        <td colspan="2"><input type="password" id="passwd" name="mem_pass" maxlength="16" oninput = "checkPass()" value="{{memPass}}" disabled></td>
+                    {{/loginType}}
+                    {{^loginType}}
+                        <td colspan="2"><input type="password" id="passwd" name="mem_pass" maxlength="16" oninput = "checkPass()" value="{{memPass}}"></td>
+                    {{/loginType}}
+
+                        </tr>
+
+                    <tr>
+                        <td colspan="2"><span id="pass-error" style="color: red;"></span>
+                        <span id="pass-ok" style="color: green;"></span>
+                        </td>
+                    </tr>
+                <tr>
+                    <td colspan="2">비밀번호 확인</td>
+                </tr>
+
+                <tr>
+                {{#loginType}}
+                    <td colspan="2"><input type="password" id="passwd_ck" name="passwd_ck"maxlength="16"oninput="checkPassMatch()" value="{{memPass}}" disabled></td>
+                {{/loginType}}
+                {{^loginType}}
+                    <td colspan="2"><input type="password" id="passwd_ck" name="passwd_ck"maxlength="16"oninput="checkPassMatch()" value="{{memPass}}"></td>
+                {{/loginType}}
+                </tr>
+
+                <tr>
+                    <td colspan="2"><span id="pass-match-error" style="color: red;"></span>
+                        <span id="pass-match" style="color: green;"></span></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>닉네임</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name" name="mem_name" value="{{memName}}"></td>
+                    <td><input type="text" id="nickname" name="mem_nickname" value="{{memNickName}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">생년월일</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="birth" name="mem_birth"placeholder="생년월일 6자리 입력" maxlength="6"  oninput="checkBirthMatch()" value="{{memBirth}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="birth-match-error" style="color: red;"></span>
+                        <span id="birth-match" style="color: green;"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">전화번호</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="tel" name="mem_phone" maxlength="11" placeholder=" - 는 생략해주세요" oninput="checkPhoneMatch()" value="{{memPhone}}" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="phone-match-error" style="color: red;"></span>
+                        <span id="phone-match" style="color: green;"></span></td>
+                </tr>
+                <tr>
+                    <td>우편번호</td>
+                    <td><input type="text" id="zipcode" name="mem_zipcode" onclick="daumZipCode()" value="{{memZipCode}}" placeholder="우편번호 찾기" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="address1" name="mem_address1" value="{{memAddress1}}" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="address2" name="mem_address2" value="{{memAddress2}}"  placeholder="상세주소를 입력해주세요."></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" id="update">수정하기</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" id="back">뒤로가기</button></td>
+                </tr>
+            </table>
+        </div>
+            {{/member}}
+    </form>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+{{>layout/footer}}
+<script src="/js/member/myPage.js"></script>
+</body>
+</html>

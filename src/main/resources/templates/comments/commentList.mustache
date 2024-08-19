@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<body>
+<div class="container">
+    {{#commentList}}
+        <div class="d-flex row edit_view">
+            <div class="col-sm-11">
+                <h6><strong>{{member.memNickName}}</strong></h6>
+                <p class="mb-2 opacity-70">
+                    {{content}}
+                </p>
+                <small class="text-muted text-nowrap">{{updateDtResult}}</small>
+            </div>
+            <div class="col-sm-1 align-self-end">
+                <input type="hidden"  id="comment_num" value="{{cNum}}">
+                {{#userCheck}}
+                    <button class="btn btn-outline-success editDiv" type="button"
+                            data-comment_num="{{cNum}}" data-review_num="{{rNum}}"
+                            data-mem_num="{{memNum}}"  data-content="{{content}}">수정
+                    </button>
+                    <button class="btn btn-outline-success mt-3" type="button"
+                            onclick="commentDelete({{cNum}})">삭제
+                    </button>
+                {{/userCheck}}
+            </div>
+            <hr class="mt-2">
+        </div>
+    {{/commentList}}
+</div>
+</body>
+<script src="/js/comments/comment.js"></script>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/css/join.css">
+<body>
+<div class="container" style="margin-top:80px;">
+    <h2>SIGN UP</h2>
+    <form name="form1">
+        <div>
+            <table  width="400px">
+                <tr>
+                    <td  colspan="2">ID</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="mem_id" name="mem_id" oninput="checkId()"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"> <span class="id_ok">사용 가능한 아이디입니다.</span>
+                        <span class="id_already">중복된 아이디입니다 다른아이디를 입력해주세요.</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">비밀번호</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="password" id="passwd" name="mem_pass" maxlength="16" oninput = "checkPass()"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="pass-error" style="color: red;"></span>
+                        <span id="pass-ok" style="color: green;"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">비밀번호 확인</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><input type="password" id="passwd_ck" name="passwd_ck"maxlength="16"oninput="checkPassMatch()"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><span id="pass-match-error" style="color: red;"></span>
+                        <span id="pass-match" style="color: green;"></span></td>
+                </tr>
+
+                <tr>
+                    <td>이름</td>
+                    <td>닉네임</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name" name="mem_name"></td>
+                    <td><input type="text" id="nickname" name="mem_nickname"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">생년월일</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="birth" name="mem_birth"placeholder="생년월일 6자리 입력" maxlength="6" oninput="checkBirthMatch()"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="birth-match-error" style="color: red;"></span>
+                        <span id="birth-match" style="color: green;"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">전화번호</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="tel" name="mem_phone" maxlength="11" placeholder=" - 는 생략해주세요" oninput="checkPhoneMatch()"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="phone-match-error" style="color: red;"></span>
+                        <span id="phone-match" style="color: green;"></span></td>
+                </tr>
+                <tr>
+                    <td>우편번호</td>
+                    <td><input type="text" id="zipcode" name="mem_zipcode" onclick="daumZipCode()" placeholder="우편번호 찾기" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="address1" name="mem_address1" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="address2" name="mem_address2" placeholder="상세주소를 입력해주세요."></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" id="save">회원가입</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" id="back">뒤로가기</button></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+{{>layout/footer}}
+<script src="/js/member/join.js"></script>
+</body>
+</html>

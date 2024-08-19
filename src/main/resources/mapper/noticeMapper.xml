@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cos.gowalk.repository.NoticeRepository">
+
+    <select id="findByReviewList" parameterType="hashMap" resultMap="noticeResultMap">
+        SELECT
+                ROW_NUMBER() OVER (ORDER BY r.NO_NUM DESC) AS rn,
+                @rownum := 0,
+                r.NO_NUM AS NO_NUM,
+                r.TITLE AS TITLE,
+                r.CONTENT AS CONTENT,
+                r.UPDATE_DT AS UPDATE_DT,
+                r.READCOUNT AS READCOUNT,
+                m.MEM_NUM AS MEM_NUM,
+                m.MEM_NICKNAME AS MEM_NICKNAME
+        FROM NOTICE r
+        JOIN member m ON r.MEM_NUM = m.MEM_NUM
+        <trim prefix="WHERE" prefixOverrides="AND">
+            r.NOTICE_YN = 'Y'
+            <if test='keyword != "" and searchType != ""'>
+                <choose>
+                    <when test='searchType.equals("title")'>
+                        AND r.TITLE LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test='searchType.equals("content")'>
+                        AND r.CONTENT LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test='searchType.equals("mem_nickname")'>
+                        AND m.MEM_NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </trim>
+        ORDER BY NO_NUM DESC
+        LIMIT ${pageRowCount} OFFSET ${offset}
+    </select>
+
+    <select id="total" parameterType="hashMap" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM (
+        SELECT r.NO_NUM, r.TITLE, r.CONTENT, m.MEM_NUM, m.MEM_NICKNAME
+        FROM NOTICE r
+        JOIN MEMBER m ON r.MEM_NUM = m.MEM_NUM AND r.NOTICE_YN = 'Y'
+        ) AS NOTICE
+        <where>
+            <if test='keyword != "" and searchType != ""'>
+                <choose>
+                    <when test='searchType.equals("title")'>
+                        AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test='searchType.equals("content")'>
+                        AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test='searchType.equals("mem_nickname")'>
+                        AND MEM_NICKNAME LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="detail" resultMap="noticeResultMap">
+        SELECT
+            LIST.*
+        FROM
+                ( SELECT r.NO_NUM,
+                r.TITLE,
+                r.CONTENT,
+                r.CREATE_DT,
+                r.READCOUNT,
+                r.UPDATE_DT,
+                r.NOTICE_YN,
+                m.mem_num,
+                m.mem_nickname,
+                lag(NO_NUM, 1, -1) over(order by NO_NUM asc) as prev,
+                lead(NO_NUM, 1, -1) over(order by NO_NUM asc) as next
+            FROM NOTICE r
+            JOIN MEMBER m
+            ON r.MEM_NUM = m.MEM_NUM) AS LIST
+        WHERE NO_NUM = #{noNum}
+        and NOTICE_YN = 'Y'
+    </select>
+
+    <insert id="insertNotice" parameterType="com.cos.gowalk.model.Notice">
+        INSERT INTO NOTICE
+        (MEM_NUM,
+        TITLE,
+        CONTENT,
+        CREATE_DT,
+        UPDATE_DT)
+             values (#{memNum},
+                     #{title},
+                     #{content},
+                     NOW(),
+                     NOW())
+    </insert>
+    <update id="editNotice">
+        UPDATE NOTICE
+        set
+        MEM_NUM   = #{memNum},
+        TITLE     = #{title},
+        CONTENT   = #{content},
+        UPDATE_DT = NOW()
+        where NO_NUM = #{noNum}
+    </update>
+
+    <update id="deleteNotice">
+        UPDATE NOTICE
+        set NOTICE_YN = "N"
+        where NO_NUM = #{noNum}
+    </update>
+
+    <update id="readCount">
+        UPDATE NOTICE
+        SET READCOUNT = READCOUNT + 1
+        where NO_NUM = #{noNum}
+    </update>
+
+
+
+    <resultMap id="noticeResultMap" type="com.cos.gowalk.model.Notice">
+        <id property="noNum" column="NO_NUM"/>
+        <result property="memNum" column="MEM_NUM"/>
+        <result property="rn" column="rn"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createDt" column="CREATE_DT"/>
+        <result property="readCount" column="READCOUNT"/>
+        <result property="prev" column="prev"/>
+        <result property="next" column="next"/>
+        <result property="updateDt" column="UPDATE_DT"/>
+        <result property="noticeYn" column="NOTICE_YN"/>
+        <collection property="member" ofType="com.cos.gowalk.model.Member">
+            <result property="memNickName" column="MEM_NICKNAME"/>
+        </collection>
+    </resultMap>
+</mapper>

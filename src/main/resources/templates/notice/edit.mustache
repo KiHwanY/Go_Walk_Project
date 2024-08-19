@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 수정페이지</title>
+</head>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/uikit.min.css">
+<link rel="stylesheet" href="/css/trakker.css">
+<link rel="stylesheet" href="/summernote/summernote-lite.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote-sticky-toolbar@1.0.0/summernote-sticky-toolbar.min.js"></script>
+<script src="/js/notice/edit.js"></script>
+<script src="/js/board/summernote.js"></script>
+<script src="/summernote/summernote-lite.js"></script>
+<script src="/summernote/lang/summernote-ko-KR.js"></script>
+<style>
+     textarea {
+        display: flex;
+        width: 100%;
+        border: none;
+        resize: none;
+    }
+
+    .form-control, input {
+        border: none;
+    }
+
+    .btn-group {
+        position: fixed;
+        bottom: 0;
+    }
+    .dropdown-toggle::after{
+     display:none;
+     }
+
+</style>
+<body>
+
+<form name="form1" method="post">
+    <div class="container"><br>
+        <input class="form-control" type="text" placeholder="제목을 입력하세요" value="{{notice.title}}" aria-label="default input example" id="title">
+        <hr>
+        <textarea class="summernote" id="summernote" name="content" >{{notice.content}}</textarea>
+        <hr>
+        <input type="hidden"  id="memNum" value="{{user.idx}}">
+        <input type="hidden"  id="noNum" value="{{notice.noNum}}">
+
+        <br><br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="btn-group m-3" role="group" aria-label="First group">
+                <button type="button" id="edit" class="btn btn-success btn-lg">수정</button>
+                <button type="button" id="reset" class="btn btn-light btn-lg">뒤로가기</button>
+            </div>
+        </div>
+        <br>
+    </div>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

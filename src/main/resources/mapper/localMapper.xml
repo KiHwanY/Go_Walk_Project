@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cos.gowalk.repository.LocalRepository">
+    <select id="localList" resultMap="localList">
+        SELECT L_NUM, K_NAME
+        FROM LOCAL
+        order by L_NUM
+    </select>
+    <select id="selectLocalList" resultMap="localList">
+        SELECT L_NUM, K_NAME
+        FROM LOCAL
+        WHERE L_NUM = #{lNum}
+    </select>
+
+    <resultMap id="localList" type="com.cos.gowalk.model.Local">
+        <id column="L_NUM" property="lNum" />
+        <result column="K_NAME" property="kName" />
+    </resultMap>
+</mapper>

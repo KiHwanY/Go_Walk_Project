@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+</head>
+<style>
+     .container {
+        position: relative;
+        text-align: center;
+        color: blue;
+    }
+
+    .bottom-left {
+        position: absolute;
+        bottom: 5px;
+        left: 12px;
+        display: -webkit-box;
+        max-width: 400px;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .modal-dialog {
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        width: 600px;
+        max-width: calc(100% - 300px) !important;
+        background: #fff !important;
+    }
+
+    #modal-img_trip {
+        height: 400px;
+    }
+
+</style>
+<body>
+{{>layout/header}}
+<section id="removeani" class="content section">
+    <article>
+        <div id="city" class="headercont">
+            <h2><b>어디로 여행을 떠나시나요?</b></h2>
+        </div>
+        <div class="row" id="cityList">
+            {{#localList}}
+                <div class="col s12 m6 l3" style="flex-basis:20rem!important;">
+                    <a onclick="plannerModal({{lNum}})"
+                       style="color:inherit!important;text-decoration:none!important;" data-bs-toggle="modal"
+                       data-bs-target="#plan_d">
+                        <div class="city-card-style hoverable z-depth-2" style="margin:0;">
+                            <div class="card-image imgbox">
+                                <img src="/img/local/{{lNum}}/{{lNum}}-{{randomNumber}}.jpg"
+                                     alt="city" loading="lazy">
+                            </div>
+                            <div class="city-card-contents-div">
+                                <li class="city-card-contents-title">
+                                    <div class="citynamefont">
+                                        <h6 class="city-card-contents-subtitle">{{kName}}</h6>
+                                    </div>
+                                </li>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{/localList}}
+        </div>
+    </article>
+</section>
+<div class="uk-flex-top modal fade" id="plan_d" tabindex="-1" aria-hidden="true" style="top:8rem;">
+    <div class="modal-dialog uk-width-auto uk-margin-auto-vertical">
+        <div class="modal-content border-0">
+            <div class="uk-grid-match uk-grid-small uk-grid">
+                <div class="uk-width-1-3@l uk-first-column modal-side">
+                    <div class="uk-background-cover" id="modal-img"></div>
+                </div>
+                <form class="modal-body uk-width-2-3@l" id="modal-form">
+                    <div class="uk-padding-large" id="modal-content">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>layout/footer}}
+<script>
+    function plannerModal(num) {
+        $.ajax({
+            url: `/user/modal/${num}`,
+            type: "post",
+            dataType: 'json',
+            success: function (data) {
+                console.log('data = ' , data);
+                let img = '';
+                img += 'url(\'/img/local/' + data.lnum + '/' + data.lnum + '-2.jpg\')';
+                $(".modal-side > #modal-img").css("background-image", img);
+
+                let content = '';
+                content += '<h2 style="font-family:\'Montserrat\';font-weight: 900;margin-bottom:0;">' + data.kname + '</h2>' +
+                    '<input hidden name="planner-local" value="' + data.lnum + '">' +
+                    '<button type="button" id="locationForModal" class="uk-button myro-color-button uk-button-large mt-3" style="float:right!important;" onclick="boardWrite(' + data.lnum + ')" >리뷰작성</button>';
+                $(".modal-body > #modal-content").html(content);
+            }
+        })
+    }
+
+    function boardWrite(lNum){
+        console.log("lNum = " , lNum);
+           location.href = `/user/review/write?lNum=`+lNum;
+
+    }
+
+</script>
+</body>
+</html>

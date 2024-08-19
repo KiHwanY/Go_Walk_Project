@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항</title>
+</head>
+<link rel="stylesheet" href="/css/board.css">
+<body>
+{{>layout/header}}
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8"><h2 class="ps-5 mt-5"><a href="/user/notice/listPage?num=1">공지사항</a></h2></div>
+            <div class="col-sm-4">
+                <div class="d-flex pe-5 mt-5">
+                    <div class="d-flex">
+                        <input type="hidden" id="num" name="num" value="{{page.pageNum}}">
+                        <select class="border-success rounded-3" id="searchType" name="searchType">
+                            <option value="title" {{#title}}selected{{/title}}>제목</option>
+                            <option value="content" {{#content}}selected{{/content}}>내용</option>
+                            <option value="mem_nickname" {{#mem_nickname}}selected{{/mem_nickname}}>작성자</option>
+                        </select>
+                        <input class="form-control ms-2 me-2" type="text" id="keyword" name="keyword" placeholder="Search"
+                               aria-label="Search" value="{{keyword}}">
+                        <button class="btn btn-outline-success" onclick="optionChange('search')">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width: 10%">번호</th>
+            <th style="width: 40%">제목</th>
+            <th style="width: 20%">작성자</th>
+            <th style="width: 20%">작성일자</th>
+            <th style="width: 10%">조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#list}}
+            <tr>
+                <td>{{rn}}</td>
+                <td><a href="/user/notice/detail/{{noNum}}">{{title}}</a></td>
+                <td>{{member.memNickName}}</td>
+                <td>{{updateDtResult}}</td>
+                <td>{{readCount}}</td>
+            </tr>
+        {{/list}}
+        </tbody>
+    </table>
+{{^list}}
+        <div class="center mt-5 mb-5 pb-5">
+                <h1><i class="bi bi-search"></i></h1>
+                <h3 class="pb-3">검색조건과 일치하는 리뷰글이 없습니다.</h3>
+            </div>
+    </div>
+{{/list}}
+    <div class="d-flex justify-content-center align-items-center py-4 my-5 h5">
+        <span>
+    {{#page.hasPrevious}}
+        <a class="ms-3 text-muted" onclick="optionChange('num', 1)"><i class="bi bi-chevron-double-left"></i></a>
+
+                <a class="ms-3 text-muted" onclick="optionChange('num', {{page.pageDown}})"><i
+                        class="bi bi-chevron-left"></i></a>
+    {{/page.hasPrevious}}
+    </span>
+
+    <div id="pageList">
+    </div>
+
+    <span>
+    {{#page.hasNext}}
+        <a class="ms-3 text-muted" onclick="optionChange('num', {{page.pageUp}})"><i
+                class="bi bi-chevron-right"></i></a>
+                <a class="ms-3 text-muted" onclick="optionChange('num', {{page.lastPageNum}})"><i
+                        class="bi bi-chevron-double-right"></i></a>
+    {{/page.hasNext}}
+        </span>
+    </div>
+    {{#roleType}}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="btn-group" role="group" aria-label="First group">
+                <button type="button" class="btn btn-success" id="write">글쓰기</button>
+            </div>
+        </div>
+    {{/roleType}}
+</div>
+<input type="hidden" id="lastPageNum" value="{{page.lastPageNum}}"/>
+{{>layout/footer}}
+<script src="/js/notice/notice.js"></script>
+<script>
+    function optionChange(type, param) {
+            const urlParams = new URLSearchParams(location.search);
+            switch (type) {
+                case 'resetTag':
+                    urlParams.delete("sort");
+                    urlParams.delete("area");
+                    break;
+                case 'sortTag':
+                    urlParams.set("sort", param);
+                    break;
+                case 'areaTag':
+                    urlParams.set("area", param);
+                    break;
+                case 'num':
+                    urlParams.set("num", param);
+                    break;
+                case 'search':
+                    const type = document.getElementById('searchType').value;
+                    const keyword = document.getElementById('keyword').value;
+
+                    urlParams.set("num",1);
+                    urlParams.set("searchType", type);
+                    urlParams.set("keyword", keyword);
+            }
+            location.href = '/user/notice/listPage?' + urlParams.toString();
+        }
+
+</script>
+</body>
+</html>

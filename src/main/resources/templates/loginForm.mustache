@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 페이지</title>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/css/login.css">
+<body>
+<div class="container">
+
+    <div  style="display: inline-grid;" >
+        <h2 style=" padding-top: 40%;">국내 여행 리뷰 사이트 <br> Go Walk</h2>
+        <form  name="form1" id="loginForm" method="POST">
+                <div class="form-floating">
+                    <input style="width: 100%;" class="form-control" id="username" name="username" placeholder="ID">
+                    <span id="userIdError" class="error" style="font-size: 70%; color :red;"></span>
+                </div>
+            &nbsp
+                <div class="form-floating">
+                    <input type="password" class="form-control" style="width: 100%;" id="password" name="password" placeholder="Password" onkeyup="pwdEnterKey()">
+                    <span id="pwdError" class="error" style=" font-size: 60%;color : red;"></span>
+                </div>
+            &nbsp
+                <span>
+                    {{#error}}
+                        <p id="valid" class="alert alert-danger" style="text-align: center; color: red; font-size: 75%;">
+                            {{#exception}}{{exception}}{{/exception}}
+                            {{^exception}}기타 오류가 발생했습니다.{{/exception}}
+                        </p>
+                    {{/error}}
+                </span>
+                <div>
+                    <button class="w-100 btn btn-lg" style="background-color: #5791D6; color: #fff;" id="loginCheck" type="button" >Login</button>
+                </div>
+                <div> <p style="font-size: 9.9px;">!아직도 회원이 아니시라면 지금 바로 가입하세요.<br><br>
+                    <a href="/joinForm"><img class="joinBtnImg" alt="사진 적용 안됨" src="/img/JoinBtn.png"></a></p>
+                </div>
+        </form>
+        <hr class="hr-with-text">
+        <div style="text-align:center">
+            <p style="color: #CBCBCB;">소셜 계정으로 간편 로그인<br>
+            <div style="text-align:center" class="btn_img">
+                <a href="/oauth2/authorization/naver"><img class="btnimg" alt="사진 적용 안됨" src="/img/btn_naver.png"></a>
+            </div>
+        </div>
+
+    </div>
+    <div style="width:100%; display: flex;" class="uk-width-3-5@m uk-grid-margin uk-first-column">
+        <div style="width: 100%; height: 100%;">
+            <div style="height: 100%;">
+                <video muted autoplay loop style=" height: 100%;" id="mainVideo">
+                    <source type="video/mp4" src="/trakker_video/trakkerMainVideo.mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+{{>layout/footer}}
+<script src="/js/member/login.js"></script>
+</body>
+</html>

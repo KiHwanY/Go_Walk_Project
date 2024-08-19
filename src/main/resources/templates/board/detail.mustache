@@ -1,0 +1,121 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<link rel="stylesheet" href="/css/board.css">
+<body>
+{{>layout/header}}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
+        <div class="justify-content-md-start" style="display: flex;">
+            {{#authority}}
+                <button type="button" class="btn Edit btn-light start-0">수정</button>
+                <button type="button" class="btn Delete btn-light start-0">삭제</button>
+            {{/authority}}
+        </div>
+        <div class="justify-content-md-end" style="display: flex; width: 20%;">
+            <button type="button" class="btn btn-light end-0 prev" value="{{review.prev}}">이전글</button>
+            <button type="button" class="btn btn-light end-0 next" value="{{review.next}}">다음글</button>
+            <button type="button" class="btn boardMainList btn-success end-0">목록</button>
+        </div>
+    </div>
+    <div class="mx-5">
+        <div class="d-flex justify-content-between align-items-center ">
+            <div>
+                <p class="mb-0 mt-4 text-success">
+                    <small>{{review.local.kName}}</small></p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="col-md-12 d-flex align-items-center">
+                <p class="mb-0 h3">{{review.title}}</p>
+            </div>
+        </div>
+        <div>
+            <div>
+                <small class="opacity-50 mb-0 text-nowrap">{{review.updateDtResult}}
+                </small>
+                <small class="opacity-50 mb-0 ms-2 text-nowrap">조회수 {{review.readCount}}</small>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <p class="mb-1">{{{review.content}}}</p>
+        </div>
+        <hr>
+        <div>
+            <div>
+                <div id="commentList"></div>
+            </div>
+            <div class="commentbox1">
+                <div class="d-flex row">
+                    <input type="hidden" name="lnum" value="${review.lnum}">
+                    <div class="col-sm-11">
+                        <textarea id="content" name="content" onkeydown="resize(this)" onkeyup="resize(this)"
+                                  placeholder="댓글을 남겨보세요" rows="2"></textarea>
+                    </div>
+                    <div class="col-sm-1 align-self-end">
+                            {{#user}}
+                            <button class="btn btn-outline-success" type="button" id="commentInsert">등록</button>
+                            {{/user}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-4">
+        <div class="justify-content-md-start" style="display: flex;">
+            {{#authority}}
+                <button type="button" class="btn edit btn-light start-0">수정</button>
+                <button type="button" class="btn delete btn-light start-0">삭제</button>
+            {{/authority}}
+        </div>
+        <div class="justify-content-md-end" style="display: flex;">
+            <button type="button" class="btn btn-light btn-end-0" id="top"><i class="bi bi-caret-up-fill"></i>TOP
+            </button>
+            <button type="button" class="btn boardMainList btn-success end-0">목록</button>
+        </div>
+    </div>
+</div>
+    <input type="hidden" name="lNum" id="lNum" value="{{review.lNum}}">
+    <input type="hidden" id="memNum" value="{{user.idx}}">
+    <input type="hidden" id="reviewNum" value="{{review.rNum}}">
+{{>layout/footer}}
+</body>
+<script src="/js/board/detail.js"></script>
+<script>
+    $(document).on("click", "#commentEdit", function () {
+            var editContent = $("#editContent").val();
+            var comment_num = $(this).closest('.commentbox2').find("input[name='comment_num']").val();
+
+            if(!editContent){
+                alert("댓글을 입력해주세요.");
+                $("#editContent").focus();
+                return;
+            }
+
+            var param = {"content": editContent, "cNum": comment_num};
+
+            $.post(`/user/comment/edit`, param)
+           .then((data) => {
+              if(data === 'success'){
+                  alert("정상적으로 수정되었습니다.");
+                  comment.search();
+              }else{
+                   alert("댓글 수정 중 오류가 발생했습니다.");
+              }
+           })
+           .catch(() => {
+              alert("댓글 수정 중 오류가 발생했습니다.(catch)");
+           });
+
+        });
+
+        function commentDelete(cNum){
+                comment.delete(cNum);
+            }
+
+</script>
+
+</html>

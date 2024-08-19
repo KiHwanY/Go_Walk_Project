@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cos.gowalk.repository.CommentsRepository">
+    <select id="commentsList" resultMap="commentsResultMap">
+        SELECT
+                rc.C_NUM AS C_NUM,
+                rc.R_NUM AS R_NUM,
+                rc.MEM_NUM AS MEM_NUM,
+                rc.CONTENT AS CONTENT,
+                m.MEM_NICKNAME AS MEM_NICKNAME,
+                rc.CREATE_DT AS CREATE_DT,
+                DATE_FORMAT(rc.UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT,
+                rc.COM_YN AS COM_YN
+        FROM
+                COMMENTS rc
+        JOIN
+                MEMBER m
+        ON
+                rc.MEM_NUM = m.MEM_NUM
+        WHERE
+                 rc.R_NUM = #{rNum}
+                 AND rc.COM_YN = 'Y'
+        ORDER BY
+                 rc.C_NUM ASC
+    </select>
+
+    <insert id="insertComments" parameterType="com.cos.gowalk.model.Board">
+        INSERT INTO COMMENTS
+        (R_NUM,
+        MEM_NUM,
+        CONTENT,
+        COM_Yn,
+        CREATE_DT,
+        UPDATE_DT)
+             values (#{rNum},
+                     #{memNum},
+                     #{content},
+                     'Y',
+                     NOW(),
+                     NOW())
+    </insert>
+
+    <update id="editComments">
+        UPDATE COMMENTS
+        set CONTENT     = #{content},
+        UPDATE_DT = NOW()
+        where C_NUM = #{cNum}
+    </update>
+
+    <update id="deleteComments">
+        UPDATE COMMENTS
+        set COM_YN = "N"
+        where C_NUM = #{cNum}
+    </update>
+
+    <resultMap id="commentsResultMap" type="com.cos.gowalk.model.Comments">
+        <id property="cNum" column="C_NUM"/>
+        <result property="rNum" column="R_NUM"/>
+        <result property="memNum" column="MEM_NUM"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createDt" column="CREATE_DT"/>
+        <result property="updateDt" column="UPDATE_DT"/>
+        <result property="comYn" column="COM_YN"/>
+        <collection property="member" ofType="com.cos.gowalk.model.Member">
+            <result property="memNickName" column="MEM_NICKNAME"/>
+        </collection>
+        <collection property="local" ofType="local">
+            <result property="kName" column="K_NAME"/>
+        </collection>
+    </resultMap>
+</mapper>
