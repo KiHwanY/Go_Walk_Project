@@ -42,7 +42,9 @@ public class AdminController {
             List<Board> boardList = adminService.boardList();
             List<Notice> noticeList = adminService.noticeList();
 
+
             mv.addObject("member" ,memberList);
+            mv.addObject("memCount" ,memberList.size() > 5);
             mv.addObject("board" ,boardList);
             mv.addObject("notice" ,noticeList);
             mv.addObject("user" , user);

@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,8 +22,14 @@ public class AdminService {
     private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
 
     public List<Member> userList() {
-
-        return adminRepository.userList();
+        List<Member> usersList = adminRepository.userList();
+        List<Member> userArr = new ArrayList<>();
+        for (Member member : usersList) {
+                if (member.getRn() <= 5){
+                    userArr.add(member);
+                }
+        }
+        return userArr;
     }
 
     public List<Board> boardList() {

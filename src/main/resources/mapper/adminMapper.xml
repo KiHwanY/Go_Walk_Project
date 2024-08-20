@@ -3,7 +3,13 @@
 <mapper namespace="com.cos.gowalk.repository.AdminRepository">
 
     <select id="userList" resultType="com.cos.gowalk.model.Member">
-        select *
+        select
+                ROW_NUMBER() OVER (ORDER BY mem_num DESC) AS rn,
+                mem_num,
+                mem_id,
+                mem_name,
+                mem_address1,
+                create_Dt
         from member
     </select>
 

@@ -28,7 +28,7 @@ public class CommentsService {
 
         boolean userCheck = false;
         LocalDateTime updateDt = null;
-
+        logger.info("댓글 갯수는 ?  = {}" , commentsList.size());
         for (Comments commentsArr : commentsList) {
             userCheck = Boolean.parseBoolean(String.valueOf(commentsArr.getMemNum() == idx));
             commentsArr.setUserCheck(userCheck);

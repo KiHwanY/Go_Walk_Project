@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class Member {
+    private int rn;
     private Long memNum;
     private String memId;
     private String memPass;
